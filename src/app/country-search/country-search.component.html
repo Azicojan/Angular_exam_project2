@@ -1,3 +1,5 @@
+
+<!--
 <section class="section">
   <div class="container">
    <h1 class="app_title">Country Data App</h1>
@@ -8,6 +10,8 @@
       <div class="control">
         <button class="button is-primary" (click)="searchCountry()">Search</button>
       </div>
+
+
     </div>
     <div *ngIf="countryData">
       <div *ngIf="countryData.notFound" class="notification is-warning">
@@ -28,13 +32,65 @@
           </div>
           <div class="content">
             <p><strong>Continent:</strong> {{ countryData.continents }}</p>
-            <p><strong>Population:</strong> {{ countryData.population | number }}</p>
+            <p><strong>Population:</strong> {{ countryData.population | populationFormat }}</p>
             <p><strong>Currency:</strong> {{ currencyName }}</p>
             <p><strong>Language:</strong> {{ languageName }}</p>
           </div>
         </div>
       </div>
     </div>
+    <div *ngIf="showWarning && !countryData" class="notification is-warning">
+      Please enter a valid country name.
+    </div>
+  </div>
+</section>
+-->
+<section class="section">
+  <div class="container">
+    <h1 class="app_title">Country Data App</h1>
+    <div class="field has-addons">
+      <div class="control is-expanded">
+        <input class="input" type="text" matInput [formControl]="countryName" [matAutocomplete]="auto">
+      </div>
+
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+          {{ country }}
+        </mat-option>
+      </mat-autocomplete>
+
+      <div class="control">
+        <button class="button is-primary" (click)="searchCountry()">Search</button>
+      </div>
+    </div>
+
+    <div *ngIf="countryData">
+      <div *ngIf="countryData.notFound" class="notification is-warning">
+        Country not found. Please enter a valid country name.
+      </div>
+      <div *ngIf="!countryData.notFound" class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-64x64">
+                <img [src]="countryData.flags['png']" alt="Country Flag">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">{{ countryData.name.official }}</p>
+              <p class="subtitle is-6">{{ countryData.capital }}</p>
+            </div>
+          </div>
+          <div class="content">
+            <p><strong>Continent:</strong> {{ countryData.continents }}</p>
+            <p><strong>Population:</strong> {{ countryData.population | populationFormat }}</p>
+            <p><strong>Currency:</strong> {{ currencyName }}</p>
+            <p><strong>Language:</strong> {{ languageName }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div *ngIf="showWarning && !countryData" class="notification is-warning">
       Please enter a valid country name.
     </div>
