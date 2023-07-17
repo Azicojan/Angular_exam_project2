@@ -50,7 +50,7 @@
     <h1 class="app_title">Country Data App</h1>
     <div class="field has-addons">
       <div class="control is-expanded">
-        <input class="input" type="text" matInput [formControl]="countryName" [matAutocomplete]="auto">
+        <input class="input" type="text" [formControl]="countryName" [matAutocomplete]="auto" (keyup)="onKeyUp($event)">
       </div>
 
       <mat-autocomplete #auto="matAutocomplete">
